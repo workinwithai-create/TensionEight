@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TensionEight — Eight-bar tension builder</title>
+<style>
+:root { --bg:#0f1115; --card:#1a1d24; --accent:#ff6b35; --text:#e8e8e8; --muted:#888; }
+body { margin:0; font-family:system-ui,sans-serif; background:var(--bg); color:var(--text); }
+header { padding:1rem 1.5rem; border-bottom:1px solid #333; }
+h1 { margin:0; font-size:1.4rem; }
+.sub { color:var(--muted); font-size:.9rem; }
+main { max-width:900px; margin:0 auto; padding:1rem; }
+.panel { background:var(--card); border-radius:12px; padding:1rem; margin-bottom:1rem; }
+label { display:block; margin:.5rem 0 .2rem; font-size:.85rem; color:var(--muted); }
+input, select, button { font:inherit; padding:.5rem .7rem; border-radius:6px; border:1px solid #444; background:#222; color:var(--text); }
+button { background:var(--accent); color:#000; border:none; cursor:pointer; font-weight:600; }
+button:disabled { opacity:.5; cursor:not-allowed; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; align-items:end; }
+.chairs { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:.5rem; }
+.chair { background:#222; padding:.6rem; border-radius:8px; }
+.playhead { height:6px; background:#333; border-radius:3px; margin:1rem 0; position:relative; }
+.playhead .bar { position:absolute; height:100%; background:var(--accent); width:0%; }
+.status { font-size:.85rem; color:var(--muted); }
+#tap { position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; z-index:10; }
+#tap button { font-size:1.2rem; padding:1rem 2rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>TensionEight</h1>
+  <div class="sub">Eight-bar tension builder · Live FluidR3 chairs · Stuck loop → must-resolve section</div>
+</header>
+<main>
+  <div id="tap"><button id="startBtn">Tap to start audio</button></div>
+  <div class="panel">
+    <div class="row">
+      <div><label>BPM</label><input id="bpm" type="number" min="60" max="180" value="98"></div>
+      <div><label>Key</label><select id="key"><option>A minor</option><option>C major</option><option>D minor</option><option>E minor</option><option>G major</option></select></div>
+      <div><label>Bars</label><select id="bars"><option>8</option><option>4</option></select></div>
+    </div>
+    <label>4-chord progression (e.g. Am F C G)</label>
+    <input id="chords" type="text" value="Am F C G" style="width:100%">
+    <div class="row" style="margin-top:.5rem">
+      <button id="play">Play</button>
+      <button id="stop">Stop</button>
+      <button id="exportWav">Export WAV</button>
+      <button id="exportMid">Export MIDI</button>
+    </div>
+    <div class="playhead"><div class="bar" id="playhead"></div></div>
+    <div class="status" id="status">Idle · samples loading…</div>
+  </div>
+  <div class="panel">
+    <strong>Chairs</strong> (live changes apply next step)
+    <div class="chairs" id="chairs"></div>
+  </div>
+  <div class="panel">
+    <strong>Recipes</strong>
+    <div id="recipes"></div>
+  </div>
+  <p class="status">Pinned samples: PreEight@d58301e4a494555f411a2afbc448b724136eee76 · Free · MIT · iOS silent switch mutes Web Audio.</p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
